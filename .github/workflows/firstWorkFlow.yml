@@ -1,57 +1,55 @@
 name: first workflow
 env:
-        WORKFLOW_VAR: workflow
-        MY_NAME: Dmytro
+                WORKFLOW_VAR: workflow
+                MY_NAME: Dmytro
 
 on:
-    workflow_dispatch:
+        workflow_dispatch:
 
 jobs:
 
-    firstjob:
-       runs-on: ubuntu-latest
-       steps:
-            - name: firstJob script
-              shell: bash
-              run: echo "Hello World! This is the first job"
-            - name: checkout the repository
-              uses: actions/checkout@v3
-            - name: greetings
-              id: greetings
-              uses: actions/hello-world-javascript-action@main
-              with:
-                who-to-greet: 'Dmytro'
-            - name: the greeting time
-              run: |
-                  echo "The time of the greeing was at: ${{ steps.greetings.outputs.time }}"
+        firstjob:
+             runs-on: ubuntu-latest
+             steps:
+                - name: firstJob script
+                  shell: bash
+                  run: echo "Hello World! This is the first job"
 
+                - name: checkout the repository
+                  uses: actions/checkout@v3
 
-    secondjob:
-        runs-on: ubuntu-latest
-        needs: firstjob
-        env:
-            JOB_VAR: "This is a job variable"
- 
-        steps:
-            - name: secondJob script
-              shell: bash
-              run: |
-                echo "this is the second job"
-                echo "and this is a multi-line script"
+                - name: greetings
+                  id: greetings
+                  uses: actions/hello-world-javascript-action@main
+                  with:
+                        who-to-greet: 'Dmytro'
+                - name: the greeting time
+                  run: |
+                        echo "The time of the greeing was at: ${{ steps.greetings.outputs.time }}"
 
-            - name: environment variables
-              env: 
-                STEP_VAR: "This vairiable is declared in the step"
-              run: |
-                echo "The workflow variable is: $WORKFLOW_VAR"
-                echo "The job variable is: $JOB_VAR"
-                echo "The name is: $MY_NAME"
-                echo "The step variable is: $STEP_VAR"
-                echo "The following is a secret: ${{ secrets.SOME_SECRET }}, of course, I cant tell you because then it wouldnt be a secret..."
-                echo "===================================="
-                echo "The following are default environment variables:"
-                echo $GITHUB_ACTOR
-                echo $GITHUB_JOB
-                echo $GITHUB_REF
+        secondjob:
+                runs-on: ubuntu-latest
+                needs: firstjob
+                env:
+                        JOB_VAR: "This is a job variable"
+                steps:
+                        - name: secondJob script
+                          shell: bash
+                          run: |
+                                echo "this is the second job"
+                                echo "and this is a multi-line script"
 
-                
+                        - name: environment variables
+                          env: 
+                                STEP_VAR: "This vairiable is declared in the step"
+                          run: |
+                                echo "The workflow variable is: $WORKFLOW_VAR"
+                                echo "The job variable is: $JOB_VAR"
+                                echo "The name is: $MY_NAME"
+                                echo "The step variable is: $STEP_VAR"
+                                echo "The following is a secret: ${{ secrets.SOME_SECRET }}, of course, I cant tell you because then it wouldnt be a secret..."
+                                echo "===================================="
+                                echo "The following are default environment variables:"
+                                echo $GITHUB_ACTOR
+                                echo $GITHUB_JOB
+                                echo $GITHUB_REF
