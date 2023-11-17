@@ -3,7 +3,7 @@ on:
  workflow_dispatch:
 jobs:
  firstjob:
- runs-on: self-hosted
+  runs-on: self-hosted
  steps:
  - name: firstJob script
  shell: cmd
